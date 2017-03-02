@@ -8,7 +8,55 @@
 
 #include "CacheController.h"
 
-unsigned char CacheRead(ccheCtrl_t cc)
+void CacheRead(int tag,int index,MESI_t state,ccheCtrl_t cc)
+{
+	if(state==I)
+	{
+		//Read from the memory
+		Read=1;
+		memRd=1;
+		
+	}
+	else if(cc.tag==tag)
+		Dataout=cacheMem[index].data;
+	else if(cc.tag!=tag)
+	{
+		//Evict the data from the location
+			if(cacheMem[index].MESI==M)
+			{
+				wMemData=cacheMem[index].data;
+				memwrite=1;
+				memRd=1;
+			}
+		//Read from memory
+		Read=1;	
+	}
+	
+}
+void CacheWrite(int tag,int index,int data)
+{
+	if(tag==cacheMem[index].tag)
+	{
+		write=1;
+	}
+	//tags do not match
+	else
+	{
+		if(cacheMem[index].MESI=M)
+		{
+			wMemData=cacheMem[index].data;
+			
+		}
+		memwrite=1;
+		write=1;
+	}
+	CacheMem[index].data=data;
+	write=1;
+	
+}
+
+
+/*unsigned char CacheRead(ccheCtrl_t cc)
 {
 	if(cc.RW)		// On read operation this will be high
 	{
@@ -33,9 +81,9 @@ unsigned char CacheRead(ccheCtrl_t cc)
 		}
 	}
 	return FOUND_IN_CACHE;
-}
+}*/
 
-unsigned char CacheWrite(ccheCtrl_t cc)
+/*unsigned char CacheWrite(ccheCtrl_t cc)
 {
 	if(cc.RW == WRITE) // cache write 
 	{
@@ -62,7 +110,7 @@ unsigned char CacheWrite(ccheCtrl_t cc)
 		
 	}
 	return cc.data;		// return the data to the processor 
-}
+}*/
 
 // This function gets the input from the processor's request 
 char CacheCtrllr(upReq_t up)	
@@ -72,14 +120,23 @@ char CacheCtrllr(upReq_t up)
 	static unsigned char snoop = 0;	// flag used to check if the data is to be written in the cache after the read miss
 	
 	unsigned char res;
-	
+	MESI_t state;
 	// load the values of tag, index and R/W# from the data given by the processor
 	cc.index = up.addr;
 	cc.tag = up.addr;		
 	cc.RW = up.RW;		// Read operation 
 	cc.RW ? (up.data = cc.data):(cc.data = up.data);		// read/write the data from processor/memory
+	//*********Check the code bellow **********************************************
+	//This will cause a problem if the tag value is checked before calling MESI
+	//For instance when the cache is in the invalid state, the tag values coming from
+	//cpu will not obviously match hence there will be no state transition for that.
+	if(cc.tag==cacheMem[cc.index].tag)
+	{
+	 cacheMem[cc.index].MESI=MESI(ccheCtrl_t cc,HIT,memRd,cacheMem[cc.index].MESI);
+	}	
 	
-	// Check if the operaiton to be done is read
+	
+	// Check if the operation to be done is read
 	if(cc.RW == READ)
 		res = CacheRead(cc);
 	else
