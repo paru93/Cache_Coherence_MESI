@@ -5,10 +5,11 @@
 #define _CACHE_CONTROLLER_H
 typedef struct
 {
+	char MESI;
 	char index;
-	int tag;
 	char rw;
 	char data;
+	int tag;
 }ccheCtrl_t;
 
 typedef enum 
@@ -24,5 +25,12 @@ typedef enum
 	WRITE, 
 	READ
 }memOpr_t;
+
+typedef enum 
+{
+	CACHE_EMPTY,
+	FOUND_IN_CACHE,
+	NOTFOUND_IN_CACHE
+}cacheDataFind_t;
 
 #endif
