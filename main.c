@@ -21,9 +21,18 @@ int main()
 
         //while(data_busy);
         up.addr=addr;
-        up.data=data;
         up.proc_id=proc_id;
         up.RW=RW;
+        up.data=data;
+        if(RW==0)
+        {
+            up.data=data;
+        }
+        else
+        {
+            up.data=NULL;
+        }
+
         printf("%d 0x%x %d 0x%x\n",up.proc_id,up.addr,up.RW,up.data);
         if(proc_id==1)
         {
@@ -51,3 +60,6 @@ int get_processor_cmd(FILE *fin,upReq_t *new_cmd)
     else
         return 0;
 }
+
+
+
