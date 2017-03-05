@@ -1,65 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "UP_CMD.h"
+#include "includes.h"
+
+void TestCacheMemAddrCheck(unsigned char *Hit, unsigned char *memRd, unsigned char *read, unsigned char *write,
+                           CacheMem_t *CacheMem, CacheCtrl_t *CacheCtrlInfo)
+{
+    CacheCtrlInfo->tag = 0x10;       // address is 0x10
+    CacheCtrlInfo->index = 0x2;      // the index is 0x2
+    CacheCtrlInfo->rw = READ;           // Read operation
+    cacheMemAddrCheck(CacheCtrlInfo, &CacheMem[CacheCtrlInfo->index], Hit, memRd, read, write);
+
+    CacheCtrlInfo->tag = 0x10;       // address is 0x10
+    CacheCtrlInfo->index = 0x2;      // the index is 0x2
+    CacheCtrlInfo->rw = WRITE;           // Read operation
+    CacheCtrlInfo->data = 0x1234;       // write the data in the location
+    cacheMemAddrCheck(CacheCtrlInfo, &CacheMem[CacheCtrlInfo->index], Hit, memRd, read, write);
+
+    CacheCtrlInfo->tag = 0x10;       // address is 0x10
+    CacheCtrlInfo->index = 0x2;      // the index is 0x2
+    CacheCtrlInfo->rw = READ;           // Read operation
+    cacheMemAddrCheck(CacheCtrlInfo, &CacheMem[CacheCtrlInfo->index], Hit, memRd, read, write);
+}
+
 int main()
 {
-    FILE *fin;
-    //char RW,proc_id;
-    int addr,data,RW,proc_id;
-    upReq_t up1,up;
-    //char *fs;
-	//int data;
-    //upReq_t new_cmd;
-    fin=fopen("in.txt","r");
-    //get_processor_cmd(fin,&new_cmd);
-    //printf("%d 0x%x %d 0x%x\n",new_cmd.proc_id,new_cmd.addr,new_cmd.RW,new_cmd.data);
-  //  fscanf(fin,"%d 0x%x %d 0x%x\n",&proc_id,&addr,&RW,&data);
-    //printf("%d 0x%x %d 0x%x\n",proc_id,addr,RW,data);
+    CacheCtrl_t CacheCtrlInfo;
+    CacheMem_t  CacheMem[256];
 
-    while(fscanf(fin,"%d 0x%x %d 0x%x\n",&proc_id,&addr,&RW,&data)!=EOF)
-    {
+    unsigned char Hit = 0, memRd = 0;       // these signals are used to synchronize the cache operations with mem
+    unsigned char read = 0, write = 0;      // signals used to control the memory operation
 
-        //while(data_busy);
-        up.addr=addr;
-        up.proc_id=proc_id;
-        up.RW=RW;
-        up.data=data;
-        if(RW==0)
-        {
-            up.data=data;
-        }
-        else
-        {
-            up.data=NULL;
-        }
-
-        printf("%d 0x%x %d 0x%x\n",up.proc_id,up.addr,up.RW,up.data);
-        if(proc_id==1)
-        {
-
-
-        }
-        else
-        {
-
-
-        }
-    }
-    fflush(fin);
-    fclose(fin);
+    // 1. Get the address from the instruction memory
+    // 2. Send the instruction received to the cache controller 1
+    //CacheCtrllr_Chck();
+    // Read operation requested from the processor
+    TestCacheMemAddrCheck(&Hit, &memRd, &read, &write, CacheMem, &CacheCtrlInfo);
+    cacheMemAddrCheck(&CacheCtrlInfo, CacheMem, &Hit, &memRd, &read, &write);
+    MESICtrllr(CacheCtrlInfo, Hit, memRd, read, write, &CacheMem[CacheCtrlInfo.index]);
     return 0;
 }
-//format proc_ID address r/wbar data
-//example: 1      0xaf5    1     0xaf00
-//for read, data is 0
-int get_processor_cmd(FILE *fin,upReq_t *new_cmd)
-{
-
-    if(fscanf(fin, "%d 0x%x %d 0x%x\n", new_cmd->proc_id,new_cmd->addr,new_cmd->RW,new_cmd->data ) != EOF)
-        return 1;
-    else
-        return 0;
-}
-
-
-

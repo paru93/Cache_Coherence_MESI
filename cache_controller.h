@@ -1,8 +1,8 @@
 
 
-
 #ifndef _CACHE_CONTROLLER_H
 #define _CACHE_CONTROLLER_H
+
 typedef struct
 {
 	char MESI;
@@ -10,9 +10,9 @@ typedef struct
 	char rw;
 	char data;
 	int tag;
-}ccheCtrl_t;
+}CacheCtrl_t;
 
-typedef enum 
+typedef enum
 {
 	I = 0,
 	M = 1,
@@ -20,17 +20,17 @@ typedef enum
 	E = 3
 }MESI_t;
 
-typedef enum 
+typedef enum
 {
-	WRITE, 
+	WRITE,
 	READ
 }memOpr_t;
 
-typedef enum 
+typedef enum
 {
 	CACHE_EMPTY,
 	FOUND_IN_CACHE,
 	NOTFOUND_IN_CACHE
-}cacheDataFind_t;
+}CacheDataFind_t;
 
 #endif
