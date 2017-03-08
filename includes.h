@@ -8,5 +8,11 @@
 
 
 // Memory operation which will be done
+enum
+    {
+        MASTER = 1,
+        SLAVE = 0
+    };
+
 
 #endif // INCLUDES_H

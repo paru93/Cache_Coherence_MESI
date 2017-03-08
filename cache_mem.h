@@ -3,8 +3,8 @@
 
 typedef struct
 {
-	char mesi;
-	char data;
+	unsigned char mesi;
+	unsigned char data;
 	int tag;
 }CacheMem_t;
 

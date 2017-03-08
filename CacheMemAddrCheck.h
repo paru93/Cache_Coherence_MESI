@@ -6,6 +6,6 @@
 #include "cache_controller.h"
 #include "cache_mem.h"
 
-void cacheMemAddrCheck(CacheCtrl_t *, CacheMem_t *, unsigned char *, unsigned char *, unsigned char *, unsigned char *);
+void cacheMemAddrCheck(CacheCtrl_t *, CacheMem_t *, unsigned char *);
 
 #endif // CACHEMEMADDRCHK_H
