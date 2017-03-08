@@ -9,73 +9,68 @@
 #include "includes.h"
 
 //Before calling MESI,match the tag value in the cache controller
-void MESICtrllr(CacheCtrl_t cc,unsigned char HIT,unsigned char memRd, unsigned char Read, unsigned char Write,
-            CacheMem_t *CacheMem)
+void MESICtrllr(unsigned char Mstr_nSlv, unsigned char Opr, unsigned char *state, unsigned char Hit)
 {
-    MESI_t nextState;
+
 
 	//If the tag are not equal, the data for that tag is either not present
 	//or eviction for the same tag has not takedn place
 	//When there are no read/write signals generated from the cache controller,
 	//The cache will change state as per snooping else based on R/W from CPU and HIT/HITM
-	if((Read == 0) && (Write == 0))
+	if(MASTER)
 	{
-		switch(CacheMem->mesi)
+		switch(*state)
 		{
-			case I: if((cc.rw == READ) && (HIT && memRd))
-						nextState = S;
-					else if((cc.rw == READ) && (!HIT && memRd))
-						nextState = E;
-                    // This case will not arise because in invalid the Read/Write flags are set before entering
-                    // this loop
-					//else if(cc.RW == WRITE)
-					//	nextState = M;
+			case I: if((Opr == READ) && Hit)
+						*state = S;
+					else if((Opr == READ) && !Hit)
+						*state = E;
+                    else if(Opr == WRITE)
+                        *state = M;
 					break;
 
-			case S:	if(cc.rw == READ)
-						nextState = S;
+			case S:	if(Opr == READ)
+						*state = S;
 					else    // in case of write
-						nextState = M;
+						*state = M;
 					break;
 
-			case E:	if(cc.rw == READ)
-						nextState = E;
+			case E:	if(Opr == READ)
+						*state = E;
 					else
-						nextState = M;
+						*state = M;
 					break;
 
-			case M:	nextState = M;
+			case M:	*state = M;
 					break;
-
 		}
 	}
 
-	else if(Read || Write)
+	else // Slave
 	{
-		switch(CacheMem->mesi)
+		switch(*state)
 		{
-			case I:	nextState = I;
+			case I:	*state = I;
 					break;
 
-			case S: if(Read)
-                      nextState = S;
-                    else if(Write)
-                      nextState = I;
+			case S: if(Opr == READ)
+                      *state = S;
+                    else if(Opr == WRITE)
+                      *state = I;
                     break;
 
-			case E: if(Read)
-                      nextState = S;
-					else if(Write)
-                      nextState = I;
+			case E: if(Opr == READ)
+                      *state = S;
+					else if(Opr == WRITE)
+                      *state = I;
                     break;
 
-			case M: if(Read)
-                      nextState = S;
-					else if(Write)
-                      nextState = I;
+			case M: if(Opr == READ)
+                      *state = S;
+					else if(Opr == WRITE)
+                      *state = I;
                     break;
 		}
 	}
-	CacheMem->mesi = nextState;
 }
 
