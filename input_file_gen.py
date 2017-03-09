@@ -21,7 +21,7 @@ def generator(no_memory_lines,no_processors,no_transactions):
     fp.close()
 
 os.chdir(os.getcwd())
-fp=open("in.txt","w")
+fp=open("procID_address_rw_data.txt","w")
 x=[]
 no_memory_lines=int(input(' No. of memory lines:'))
 no_processors=int(input('No. of processors:'))
