@@ -1,10 +1,9 @@
 
-
-////////////////////////////////////////////////////
-// CacheController.c
+///////////////////////////////////////
+// File Name: MESI.c
+// Author: Chetan
 //
-//
-////////////////////////////////////////////////////
+///////////////////////////////////////
 
 #include "includes.h"
 
@@ -17,7 +16,7 @@ void MESICtrllr(unsigned char Mstr_nSlv, unsigned char Opr, unsigned char *state
 	//or eviction for the same tag has not takedn place
 	//When there are no read/write signals generated from the cache controller,
 	//The cache will change state as per snooping else based on R/W from CPU and HIT/HITM
-	if(MASTER)
+	if(Mstr_nSlv == MASTER)
 	{
 		switch(*state)
 		{
@@ -29,7 +28,7 @@ void MESICtrllr(unsigned char Mstr_nSlv, unsigned char Opr, unsigned char *state
                         *state = M;
 					break;
 
-			case S:	if(Opr == READ)
+		 	case S:	if(Opr == READ)
 						*state = S;
 					else    // in case of write
 						*state = M;
