@@ -25,6 +25,7 @@ unsigned char lookInOthrSrc = 0;
 unsigned char DataFrmMem = 0;
 unsigned int  MissCounter = 0;
 
+unsigned int TotalHitCntr = 0;
 //
 
 int main()
@@ -61,7 +62,7 @@ int main()
             default: printf("No processor found\n");
         }
     }
-    printf("Total Miss: %d", MissCounter);  // display the number of times the memory had to be accessed
-
+    printf("Total Miss: %d\n", MissCounter);  // display the number of times the memory had to be accessed
+    printf("Total Hit: %d\n", TotalHitCntr);
     return 0;
 }
