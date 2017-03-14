@@ -15,7 +15,7 @@
 extern unsigned char shareData;
 extern unsigned char lookInOthrSrc;
 extern unsigned char DataFrmMem;
-
+extern unsigned int TotalHitCntr;
 
 unsigned char SM[MAINMEMORYSIZE];
 
@@ -49,12 +49,12 @@ unsigned char CacheCtrllr(unsigned int addr, unsigned char upData, unsigned char
     {
         printf("CacheMem1: Addr: %d, Tag: %d, Index: %d, MESI: %d, Data: %d\n", addr, CacheMem[cc.index].tag, cc.index, CacheMem[cc.index].mesi, CacheMem[cc.index].data);
         AccessCache(&CacheMem, cc, InvalidateSig, &InvldGen, &Hit, done, upData);
+        TotalHitCntr++;
     }
     else if(Found == 0)   // not found in the cache
     {
         static unsigned char state = 0;
         ReqDataFrmOthrSrc(CacheMem, cc, InvalidateSig, &state);
-        printf("CacheMem1: Addr: %d, Tag: %d, Index: %d, MESI: %d, Data: %d\n", addr, CacheMem[cc.index].tag, cc.index, CacheMem[cc.index].mesi, CacheMem[cc.index].data);
     }
     return 0;
 }
@@ -89,12 +89,12 @@ unsigned char CacheCtrllr2(unsigned int addr, unsigned char upData, unsigned cha
     {
         printf("CacheMem2: Addr: %d, Tag: %d, Index: %d, MESI: %d, Data: %d\n", addr, CacheMem[cc.index].tag, cc.index, CacheMem[cc.index].mesi, CacheMem[cc.index].data);
         AccessCache(&CacheMem, cc, InvalidateSig, &InvldGen, &Hit, done, upData);
+        TotalHitCntr++;
     }
     else if(Found == 0)   // not found in the cache
     {
         static unsigned char state = 0;
         ReqDataFrmOthrSrc(CacheMem, cc, InvalidateSig, &state);
-        printf("CacheMem2: Addr: %d, Tag: %d, Index: %d, MESI: %d, Data: %d\n", addr, CacheMem[cc.index].tag, cc.index, CacheMem[cc.index].mesi, CacheMem[cc.index].data);
     }
     return 0;
 }
@@ -129,12 +129,12 @@ unsigned char CacheCtrllr3(unsigned int addr, unsigned char upData, unsigned cha
     {
         printf("CacheMem3: Addr: %d, Tag: %d, Index: %d, MESI: %d, Data: %d\n", addr, CacheMem[cc.index].tag, cc.index, CacheMem[cc.index].mesi, CacheMem[cc.index].data);
         AccessCache(&CacheMem, cc, InvalidateSig, &InvldGen, &Hit, done, upData);
+        TotalHitCntr++;
     }
     else if(Found == 0)   // not found in the cache
     {
         static unsigned char state = 0;
         ReqDataFrmOthrSrc(CacheMem, cc, InvalidateSig, &state);
-        printf("CacheMem3: Addr: %d, Tag: %d, Index: %d, MESI: %d, Data: %d\n", addr, CacheMem[cc.index].tag, cc.index, CacheMem[cc.index].mesi, CacheMem[cc.index].data);
     }
     return 0;
 }
@@ -168,12 +168,12 @@ unsigned char CacheCtrllr4(unsigned int addr, unsigned char upData, unsigned cha
     {
         printf("CacheMem4: Addr: %d, Tag: %d, Index: %d, MESI: %d, Data: %d\n", addr, CacheMem[cc.index].tag, cc.index, CacheMem[cc.index].mesi, CacheMem[cc.index].data);
         AccessCache(&CacheMem, cc, InvalidateSig, &InvldGen, &Hit, done, upData);
+        TotalHitCntr++;
     }
     else if(Found == 0)   // not found in the cache
     {
         static unsigned char state = 0;
         ReqDataFrmOthrSrc(CacheMem, cc, InvalidateSig, &state);
-        printf("CacheMem4: Addr: %d, Tag: %d, Index: %d, MESI: %d, Data: %d\n", addr, CacheMem[cc.index].tag, cc.index, CacheMem[cc.index].mesi, CacheMem[cc.index].data);
     }
     return 0;
 }
