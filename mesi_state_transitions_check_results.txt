@@ -1,0 +1,14 @@
+II	2 0xfa 1		1)I-I 2)I-E   
+IE	1 0xfa 1  		1)I-S 2)E-S
+SS	2 0xfa 1  		1)S-S 2)S-S
+SS	2 0xfa 0 0xab	1)S-I 2)S-M
+IM	2 0x1fa 1   	1)I-I 2)M-E
+IE	1 0x1fa 1   	1)I-S 2)E-S
+SS	1 0x1fa 0 0xde	1)S-M 2)S-I
+MI	1 0x2fa 0 0x22	1)M-E 2)I-I
+EI	2 0x2fa 0 0x5e	1)E-I 2)I-M
+IM	1 0x2fa 0 0xe2	1)I-M 2)M-I
+MI
+
+1st column: initial states processor1 and processor2 initially invalid and invalid
+last column: current state to next state transition for processor1 and processor2

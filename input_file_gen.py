@@ -11,6 +11,6 @@ def generator(n):
     fp.close()
 
 os.chdir(os.getcwd())
-fp=open("in.txt","w")
+fp=open("procID_address_rw_data.txt","w")
 x=[]
 generator(10)
