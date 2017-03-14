@@ -5,7 +5,9 @@
 #include "CacheMemAddrCheck.h"
 #include "cache_controller.h"
 #include "cache_mem.h"
-
+#include "CacheOperation.h"
+#include "BusElements.h"
+#include "Bus.h"
 
 // Memory operation which will be done
 enum

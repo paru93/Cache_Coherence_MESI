@@ -12,7 +12,7 @@ void cacheMemAddrCheck(CacheCtrl_t *cc, CacheMem_t *CacheMem, unsigned char *Hit
 {
 
     // check if the cache location is empty or contains an invalid address/tag
-    if(cc->tag != CacheMem[cc->index].tag)
+    if((cc->tag != CacheMem[cc->index].tag) || (CacheMem[cc->index].mesi == I))
     {
         *Hit = 0;
     }

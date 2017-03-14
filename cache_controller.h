@@ -5,11 +5,11 @@
 
 typedef struct
 {
-	char MESI;
-	char index;
-	char rw;
-	char data;
-	int tag;
+	unsigned char MESI;
+	unsigned char index;
+	unsigned char rw;
+	unsigned char data;
+	unsigned int tag;
 }CacheCtrl_t;
 
 typedef enum
