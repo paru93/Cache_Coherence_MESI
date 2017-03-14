@@ -1,6 +1,22 @@
+///////////////////////////////////////
+// File Name: main.c
+// Author: Chetan
+//
+///////////////////////////////////////
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "includes.h"
+
+// Flow of Program
+// Instruction read from text file
+// As per processor ID it is used to select the cache controller
+// The cache controller:
+//      1. Check if the address is present in cache
+//      2. If address found then read/write data
+//      3. If address not found then read from other cache
+//      4. After data read from other cache update the requested cache
+
 
 
 // Variables
